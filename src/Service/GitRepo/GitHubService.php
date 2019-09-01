@@ -30,6 +30,10 @@ class GitHubService implements GitServiceInterface
     {
         $arrayData = $response->toArray();
 
-        return $arrayData[0]['sha'] ?? 'Now data';
+        if(isset($arrayData[0]['sha'])) {
+            return $arrayData[0]['sha'];
+        }
+
+        throw new \LogicException('Now data');
     }
 }

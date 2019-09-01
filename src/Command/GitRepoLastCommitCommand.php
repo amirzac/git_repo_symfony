@@ -43,7 +43,13 @@ class GitRepoLastCommitCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $io->success($this->gitRepoManager->getLastCommitSha($this->gitServiceFactory->buildGitService($input)));
+            $gitService = $this->gitServiceFactory->buildGitService(
+                $input->getArgument('repo'),
+                $input->getArgument('branch'),
+                $input->getOption('service')
+            );
+
+            $io->success($this->gitRepoManager->getLastCommitSha($gitService));
         } catch (\Exception $exception) {
             $io->error($exception->getMessage());
         }
